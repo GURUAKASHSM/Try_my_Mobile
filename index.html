@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="shortcut icon" href="logo.png" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="manifest.json">
+<script>
+      //if browser support service worker
+      if('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js');
+      };
+</script>
+  <title>Try my Phone</title>
+<style>
+
+        .text-overlay {
+            margin-left: -1570px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgb(239, 230, 230);
+            font-size: 100px;
+            font-style: normal;
+            font-weight: bold;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+</style>
+<img class="js-image" src="1.jpg" alt="ui" usemap="#lockmap">
+<div class="text-overlay" style="display: none;"></div>
+<map name="lockmap" class="js-map">
+    <area alt="port" title="port" onclick="typePasswordPage()" coords="1,2173,1073,824" shape="rect" id="myArea">
+    <area target="" alt="time" title="time"  onclick="displayTime()"  coords="204,431,905,867" shape="rect">
+</map>
+<script>
+    let password = "";
+    let typeCheck = 1
+    let emergencyNo = ""
+    let emergencyNoCount = 1
+    const imgElement =  document.querySelector('.js-image');
+    const mapElement =   document.querySelector('.js-map');
+function typePasswordPage(){
+    imgElement.src="2.jpg"
+    
+    mapElement.innerHTML = `
+    <area target="" alt="1" title="1" onclick="type('1')" coords="274,1204,90" shape="circle">
+    <area target="" alt="2" title="2" onclick="type('2')" coords="541,1203,89" shape="circle">
+    <area target="" alt="3" title="3" onclick="type('3')" coords="806,1204,92" shape="circle">
+    <area target="" alt="4" title="4" onclick="type('4')" coords="274,1430,89" shape="circle">
+    <area target="" alt="5" title="5" onclick="type('5')" coords="541,1430,89" shape="circle">
+    <area target="" alt="6" title="6" onclick="type('6')" coords="806,1432,89" shape="circle">
+    <area target="" alt="7" title="7" onclick="type('7')" coords="273,1655,89" shape="circle">
+    <area target="" alt="8" title="8" onclick="type('8')" coords="538,1655,88" shape="circle">
+    <area target="" alt="9" title="9" onclick="type('9')" coords="808,1655,89" shape="circle">
+    <area target="" alt="0" title="0" onclick="type('0')" coords="539,1881,88" shape="circle">
+    <area target="" alt="ok" title="ok" onclick="checkpass()" coords="809,1880,64" shape="circle">
+    <area target="" alt="x" title="x" onclick="removepass()" coords="279,1882,64" shape="circle">
+    <area target="" alt="<" title="<" onclick="home()" coords="816,2278,857,2236,861,2318" shape="poly">
+    <area target="" alt="emergency " title="emergency " onclick="emergency()" coords="325,2099,333,2076,346,2063,363,2058,382,2054,395,2055,412,2054,426,2055,443,2052,462,2055,480,2054,495,2055,510,2054,526,2054,539,2056,577,2056,604,2055,634,2057,661,2054,692,2052,719,2056,738,2068,745,2080,749,2093,751,2108,745,2123,734,2139,720,2147,678,2151,626,2152,583,2154,527,2149,485,2152,439,2152,399,2150,370,2149,342,2141,329,2121" shape="poly">
+     `
+}
+
+function emergency(){
+    imgElement.src = "8.jpg"
+    password = ""
+    typeCheck = 1
+    mapElement.innerHTML = `<area target="" alt="amma" title="amma" onclick = "displayWarning()" coords="143,577,93" shape="circle">
+    <area target="" alt="appa" title="appa" onclick = "displayWarning()" coords="350,578,91" shape="circle">
+    <area target="" alt="add" title="add" onclick = "displayWarning()" coords="548,568,64" shape="circle">
+    <area target="" alt="1" title="1" onclick = "typenumber('1')" coords="232,1099,77" shape="circle">
+    <area target="" alt="2" title="2" onclick = "typenumber('2')" coords="540,1106,76" shape="circle">
+    <area target="" alt="3" title="3" onclick = "typenumber('3')" coords="851,1110,77" shape="circle">
+    <area target="" alt="4" title="4" onclick = "typenumber('4')" coords="226,1345,79" shape="circle">
+    <area target="" alt="5" title="5" onclick = "typenumber('5')" coords="534,1337,90" shape="circle">
+    <area target="" alt="6" title="6" onclick = "typenumber('6')" coords="852,1342,77" shape="circle">
+    <area target="" alt="7" title="7" onclick = "typenumber('7')" coords="226,1578,77" shape="circle">
+    <area target="" alt="8" title="8" onclick = "typenumber('8')" coords="539,1575,74" shape="circle">
+    <area target="" alt="9" title="9" onclick = "typenumber('9')" coords="854,1586,77" shape="circle">
+    <area target="" alt="*" title="*" onclick = "typenumber('*')" coords="229,1806,65" shape="circle">
+    <area target="" alt="0" title="0" onclick = "typenumber('0')" coords="538,1806,76" shape="circle">
+    <area target="" alt="#" title="#" onclick = "typenumber('#')" coords="852,1805,73" shape="circle">
+    <area target="" alt="info" title="info" onclick = "info()" coords="223,2082,91" shape="circle">
+    <area target="" alt="call" title="call" onclick = "call()" coords="539,2066,92" shape="circle">
+    <area target="" alt="backspace" title="backspace" onclick = "backspace()" coords="858,2064,72" shape="circle">
+    <area target="" alt="home" title="home" onclick = "home()" coords="535,2279,54" shape="circle">
+    <area target="" alt=" exit" title=" exit" onclick = "home()" coords="846,2280,45" shape="circle">`
+}
+function backspace(){
+  if(emergencyNoCount == 1){
+        return
+    }
+  emergencyNo= emergencyNo.slice(0,-1)
+  emergencyNoCount --
+  displayNumber()
+}
+function home(){
+    document.querySelector('.text-overlay').style.display = 'none'
+    emergencyNo = ""
+    emergencyNoCount = 1
+    imgElement.src = "1.jpg"
+  mapElement.innerHTML = `<area alt="port" title="port" onclick="typePasswordPage()" coords="1,2173,1073,824" shape="rect" id="myArea">
+  <area target="" alt="time" title="time"  onclick="displayTime()"  coords="204,431,905,867" shape="rect">`
+
+}
+
+function typenumber(no){
+   
+    emergencyNo += no
+    emergencyNoCount++
+    displayNumber()
+
+}
+function displayNumber(){
+    document.querySelector('.text-overlay').style.display = 'block'
+    document.querySelector('.text-overlay').innerHTML = emergencyNo
+
+}
+function info(){
+    document.querySelector('.text-overlay').style.display = 'none'
+    imgElement.src = "10.jpg"
+    mapElement.innerHTML =`    <area target="" alt="out" title="out" onclick="out()" coords="79,207,61" shape="circle">
+    <area target="" alt="home" title="home" onclick="home()" coords="538,2277,59" shape="circle">
+    <area target="" alt="out" title="out" onclick="out()" coords="844,2279,54" shape="circle">`
+}
+function out(){
+    emergency()
+    displayNumber()
+}
+function checkpass(){
+    imgElement.src = "6.jpg"
+    typeCheck = 1
+    password = ""
+}
+
+function displayTime(){
+    imgElement.src = "11.jpg"
+}
+function removepass(){
+   
+
+    if(typeCheck == 1){
+        imgElement.src = "2.jpg"
+        return
+    }
+    password= password.slice(0,-1)
+    
+    if(typeCheck == 2){
+      imgElement.src = "2.jpg"
+      typeCheck --
+      return
+    }
+    if(typeCheck == 3){
+      imgElement.src = "3.jpg"
+      typeCheck --
+      return
+    }
+    if(typeCheck == 4){
+      imgElement.src = "4.jpg"
+      typeCheck --
+      return
+    }
+    
+
+}
+function type(no){
+    password += no
+    console.log(password)
+    if(typeCheck == 1){
+      imgElement.src = "3.jpg"
+    }
+    if(typeCheck == 2){
+      imgElement.src = "4.jpg"
+    }
+    if(typeCheck == 3){
+      imgElement.src = "5.jpg"
+    }
+    if(typeCheck == 4){
+      if(password != "1112"){
+        imgElement.src = "6.jpg"
+        password = ""
+        typeCheck = 1
+        return
+      }
+      imgElement.src = "7.jpg"
+      mapElement.innerHTML = ""
+
+    }
+    typeCheck++
+    
+}
+</script>
+</html>
